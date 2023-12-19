@@ -3,8 +3,10 @@ import { useEffect, useState } from "react";
 import "./App.css";
 
 export default function App() {
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(100);
   const [convertedAmount, setConvertedAmount] = useState(0);
+  const [convertFrom, setConvertFrom] = useState("USD");
+  const [convertTo, setConvertTo] = useState("EUR");
 
   useEffect(
     function () {
@@ -13,7 +15,7 @@ export default function App() {
       async function fetchData() {
         try {
           const res = await fetch(
-            `https://api.frankfurter.app/latest?amount=${amount}&from=EUR&to=USD`,
+            `https://api.frankfurter.app/latest?amount=${amount}&from=${convertFrom}&to=${convertTo}`,
             { signal: controller.signal }
           );
           const data = await res.json();
@@ -35,13 +37,16 @@ export default function App() {
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
       />
-      <select>
+      <select
+        value={convertFrom}
+        onChange={(e) => setConvertFrom(e.target.value)}
+      >
         <option value="USD">USD</option>
         <option value="EUR">EUR</option>
         <option value="CAD">CAD</option>
         <option value="INR">INR</option>
       </select>
-      <select>
+      <select value={convertTo} onChange={(e) => setConvertTo(e.target.value)}>
         <option value="USD">USD</option>
         <option value="EUR">EUR</option>
         <option value="CAD">CAD</option>
