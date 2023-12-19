@@ -1,11 +1,23 @@
+// `https://api.frankfurter.app/latest?amount=100&from=EUR&to=USD`
 import "./App.css";
 
-function App() {
+export default function App() {
   return (
     <div>
-      <h1>Hello React</h1>
+      <input type="text" />
+      <select>
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+        <option value="CAD">CAD</option>
+        <option value="INR">INR</option>
+      </select>
+      <select>
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+        <option value="CAD">CAD</option>
+        <option value="INR">INR</option>
+      </select>
+      <p>OUTPUT</p>
     </div>
   );
 }
-
-export default App;
