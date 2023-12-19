@@ -1,9 +1,8 @@
-// `https://api.frankfurter.app/latest?amount=100&from=EUR&to=USD`
 import { useEffect, useState } from "react";
 import "./App.css";
 
 export default function App() {
-  const [amount, setAmount] = useState(100);
+  const [amount, setAmount] = useState();
   const [convertedAmount, setConvertedAmount] = useState(0);
   const [convertFrom, setConvertFrom] = useState("USD");
   const [convertTo, setConvertTo] = useState("EUR");
@@ -14,13 +13,15 @@ export default function App() {
 
       async function fetchData() {
         try {
-          if (amount > 0) {
+          if (amount > 0 && convertFrom != convertTo) {
             const res = await fetch(
               `https://api.frankfurter.app/latest?amount=${amount}&from=${convertFrom}&to=${convertTo}`,
               { signal: controller.signal }
             );
             const data = await res.json();
             setConvertedAmount(data.rates[Object.keys(data.rates)[0]]);
+          } else {
+            setConvertedAmount(0);
           }
         } catch (err) {
           console.log(err.message);
@@ -29,14 +30,13 @@ export default function App() {
 
       fetchData();
     },
-    [amount]
+    [amount, convertFrom, convertTo]
   );
 
   return (
     <div>
       <input
         type="text"
-        value={amount}
         placeholder="Enter amount..."
         onChange={(e) => setAmount(e.target.value)}
       />
@@ -55,7 +55,7 @@ export default function App() {
         <option value="CAD">CAD</option>
         <option value="INR">INR</option>
       </select>
-      <p>{convertedAmount}</p>
+      <p>{convertedAmount > 0 && convertedAmount}</p>
     </div>
   );
 }
