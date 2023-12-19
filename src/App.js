@@ -14,12 +14,14 @@ export default function App() {
 
       async function fetchData() {
         try {
-          const res = await fetch(
-            `https://api.frankfurter.app/latest?amount=${amount}&from=${convertFrom}&to=${convertTo}`,
-            { signal: controller.signal }
-          );
-          const data = await res.json();
-          setConvertedAmount(data.rates[Object.keys(data.rates)[0]]);
+          if (amount > 0) {
+            const res = await fetch(
+              `https://api.frankfurter.app/latest?amount=${amount}&from=${convertFrom}&to=${convertTo}`,
+              { signal: controller.signal }
+            );
+            const data = await res.json();
+            setConvertedAmount(data.rates[Object.keys(data.rates)[0]]);
+          }
         } catch (err) {
           console.log(err.message);
         }
@@ -35,6 +37,7 @@ export default function App() {
       <input
         type="text"
         value={amount}
+        placeholder="Enter amount..."
         onChange={(e) => setAmount(e.target.value)}
       />
       <select
